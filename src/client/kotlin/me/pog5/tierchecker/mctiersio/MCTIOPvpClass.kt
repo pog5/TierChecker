@@ -1,4 +1,4 @@
-package me.pog5.mctiersio
+package me.pog5.tierchecker.mctiersio
 
 import com.google.gson.annotations.SerializedName
 

@@ -20,12 +20,20 @@ repositories {
 
 	// https://github.com/xpple/clientarguments
 	maven {
-		name = "Xpple Maven"
+		name = "Xpple Maven (ClientArguments)"
 		url 'https://maven.xpple.dev/maven2'
 	}
 	maven {
-		name = "ParchmentMC"
-		url = 'https://maven.parchmentmc.org'
+		name = "ParchmentMC (Mappings)"
+		url 'https://maven.parchmentmc.org'
+	}
+	maven {
+		name = 'Xander Maven (YACL)'
+		url 'https://maven.isxander.dev/releases'
+	}
+	maven {
+		name = "Terraformers (Mod Menu)"
+		url = "https://maven.terraformersmc.com/"
 	}
 }
 
@@ -59,6 +67,12 @@ dependencies {
 
 	// Xpple Client Arguments
 	include modImplementation("dev.xpple:clientarguments:${project.cllientarguments_version}")
+
+	// Yet Another Config Lib
+	modImplementation "dev.isxander:yet-another-config-lib:${project.yacl_version}"
+
+	// Mod Menu
+	modImplementation("com.terraformersmc:modmenu:${project.modmenu_version}")
 }
 
 processResources {

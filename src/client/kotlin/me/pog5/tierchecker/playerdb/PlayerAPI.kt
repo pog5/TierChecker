@@ -1,4 +1,4 @@
-package me.pog5.playerdb
+package me.pog5.tierchecker.playerdb
 
 import com.github.benmanes.caffeine.cache.Caffeine
 import java.net.ProxySelector

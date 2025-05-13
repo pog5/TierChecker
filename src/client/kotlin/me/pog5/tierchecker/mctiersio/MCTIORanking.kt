@@ -1,4 +1,4 @@
-package me.pog5.mctiersio
+package me.pog5.tierchecker.mctiersio
 
 data class MCTIORanking(
     val tier: Int, // 1-5

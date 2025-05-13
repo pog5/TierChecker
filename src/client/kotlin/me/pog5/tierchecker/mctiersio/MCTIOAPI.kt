@@ -1,8 +1,8 @@
-    package me.pog5.mctiersio
+package me.pog5.tierchecker.mctiersio
 
     import com.github.benmanes.caffeine.cache.Caffeine
     import com.google.gson.Gson
-    import me.pog5.playerdb.PlayerAPI.USERAGENT
+    import me.pog5.tierchecker.playerdb.PlayerAPI.USERAGENT
     import java.net.ProxySelector
     import java.net.URI
     import java.net.http.HttpClient
