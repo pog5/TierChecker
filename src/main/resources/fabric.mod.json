@@ -1,0 +1,44 @@
+{
+	"schemaVersion": 1,
+	"id": "tierchecker",
+	"version": "${version}",
+	"name": "TierChecker",
+	"description": "Check other players tiers using a command via the MCTiers APIs.",
+	"authors": [
+		"pog5 (developer)", "skeletica. (idea)"
+	],
+	"contact": {
+		"sources": "https://github.com/pog5/TierChecker"
+	},
+	"license": "MIT",
+	"icon": "assets/tierchecker/icon.png",
+	"environment": "*",
+	"entrypoints": {
+		"main": [
+			{
+				"value": "me.pog5.TierChecker",
+				"adapter": "kotlin"
+			}
+		],
+		"client": [
+			{
+				"value": "me.pog5.TierCheckerClient",
+				"adapter": "kotlin"
+			}
+		]
+	},
+	"mixins": [
+		"tierchecker.mixins.json",
+		{
+			"config": "tierchecker.client.mixins.json",
+			"environment": "client"
+		}
+	],
+	"depends": {
+		"fabricloader": ">=0.16.14",
+		"minecraft": "~1.21.4",
+		"java": ">=21",
+		"fabric-api": "*",
+		"fabric-language-kotlin": "*"
+	}
+}
