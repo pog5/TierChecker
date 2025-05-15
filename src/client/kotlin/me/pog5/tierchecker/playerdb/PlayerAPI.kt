@@ -7,7 +7,7 @@ import java.net.http.HttpClient
 import java.net.http.HttpRequest
 import java.net.http.HttpResponse
 import java.time.Duration
-import java.util.UUID
+import java.util.*
 import java.util.concurrent.TimeUnit
 
 object PlayerAPI {
@@ -52,5 +52,23 @@ object PlayerAPI {
         val body = response.body()
         val uuid = body.substringAfter("\"id\":\"").substringBefore("\"")
         return UUID.fromString(uuid)
+    }
+
+    fun getPlayerName(uuid: UUID): String? {
+        val request = HttpRequest.newBuilder()
+            .uri(URI.create("$BASE_URL/${uuid.toString().replace("-", "")}"))
+            .header("User-Agent", USERAGENT)
+            .timeout(Duration.ofSeconds(10))
+            .GET()
+            .build()
+
+        val response = httpClient.send(request, HttpResponse.BodyHandlers.ofString())
+        if (response.statusCode() != 200) {
+            return null
+        }
+
+        val body = response.body()
+        val name = body.substringAfter("\"name\":\"").substringBefore("\"")
+        return name
     }
 }

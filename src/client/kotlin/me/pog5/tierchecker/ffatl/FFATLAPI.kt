@@ -1,8 +1,8 @@
-package me.pog5.tierchecker.mctierscom
+package me.pog5.tierchecker.ffatl
+
 
 import com.github.benmanes.caffeine.cache.Caffeine
 import com.google.gson.Gson
-import me.pog5.tierchecker.mctiersio.MCTIOProfile
 import me.pog5.tierchecker.playerdb.PlayerAPI.USERAGENT
 import java.net.ProxySelector
 import java.net.URI
@@ -10,17 +10,16 @@ import java.net.http.HttpClient
 import java.net.http.HttpRequest
 import java.net.http.HttpResponse
 import java.time.Duration
-import java.util.*
 import java.util.concurrent.TimeUnit
 
-object MCTCOMAPI {
-    const val MCT_API = "https://mctiers.com/api/profile"
+object FFATLAPI {
+    const val FFATL_API = "https://beez-server.vercel.app/api/search?ign="
 
     val tierCache = Caffeine.newBuilder()
         .maximumSize(600 * 5) // num of ppl expected in server times number of servers
         .expireAfterAccess(5, TimeUnit.MINUTES)
         .refreshAfterWrite(1, TimeUnit.MINUTES)
-        .build<UUID, MCTIOProfile?> { uuid -> getProfile(uuid) }
+        .build<String, FFATLProfile?> { name -> getProfile(name.lowercase()) } // the api uses names instead of uuids, stupid imo
 
     private val httpClient = HttpClient.newBuilder()
         .proxy(ProxySelector.getDefault())
@@ -29,9 +28,8 @@ object MCTCOMAPI {
         .priority(6)
         .build()
 
-    fun getProfile(uuid: UUID): MCTIOProfile? {
-        val dashlessUUID = uuid.toString().replace("-", "")
-        val url = "$MCT_API/${dashlessUUID}"
+    fun getProfile(name: String): FFATLProfile? {
+        val url = "$FFATL_API${name}"
 
         val request = HttpRequest.newBuilder()
             .uri(URI.create(url))
@@ -50,21 +48,22 @@ object MCTCOMAPI {
             return null
         }
 
+        println(request.uri())
         val body = response.body()
-
-        if (response.statusCode() != 200) {
-            return null
+        println(response.body())
+        if (response.statusCode() != 200 || response.body().contains("not found")) {
+            return FFATLProfile(name = name)
         }
         val profile = fromJson(body)
         return profile
     }
 
-    fun fromJson(json: String): MCTIOProfile {
+    fun fromJson(json: String): FFATLProfile {
         val gson = Gson()
-        return gson.fromJson(json, MCTIOProfile::class.java)
+        return gson.fromJson(json, FFATLProfile::class.java)
     }
 
-    fun toJson(profile: MCTIOProfile): String {
+    fun toJson(profile: FFATLProfile?): String {
         val gson = Gson()
         return gson.toJson(profile)
     }

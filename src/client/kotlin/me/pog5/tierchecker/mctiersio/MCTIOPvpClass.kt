@@ -35,7 +35,10 @@ enum class MCTIOPvpClass {
     ELYTRA("Elytra"),
 
     @SerializedName("mace")
-    MACE("Mace");
+    MACE("Mace"),
+
+    @SerializedName("speed")
+    SPEED("Speed");
 
     var displayName: String = name.replace("_", " ").lowercase().replaceFirstChar { it.uppercase() }
 
